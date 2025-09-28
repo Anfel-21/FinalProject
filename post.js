@@ -12,7 +12,7 @@
             const comments = post.comments
             const author = post.author
 
-            document.getElementById("username-span").innerHTML = `${author.username} Post`
+            document.getElementById("username-span").innerHTML = `${author.username}'s Post`
 
             let postTitle = ""
 
@@ -23,17 +23,13 @@
             let commentsContent =``
             for(comment of comments){
                 commentsContent += `
-                        <div id="comments">
-                                <div class="p-3" style="background-color: rgba(234, 216, 239, 1); border-bottom: 1 solid;">
+                                <div class="comment p-3" style="background-color: rgba(234, 216, 239, 1); border-bottom: 1 solid;">
                                     <div >
                                         <img src="${comment.author.profile_image}" alt="profile-image" class="rounded-circle" style="width: 40px; height: 40px;">
                                         <b>${comment.author.username}</b>
                                     </div>
-                                    <div style="margin-top : 7px;">${comment.body}</div>
+                                    <div style="margin-top : 7px;">${comment.body}</div>            
                                 </div>
-                                
-                                </div>
-                        </div>
                 `
             }
 

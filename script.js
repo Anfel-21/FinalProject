@@ -22,6 +22,7 @@
             let posts = response.data.data
             lastPage = response.data.meta.last_page
 
+            const postsFragment = document.createDocumentFragment()
             for(let post of posts){
 
                 let user = getCurrentUser()
@@ -39,7 +40,9 @@
                 if(post.title != null){
                     postTitle = post.title 
                 }
-                document.getElementById("posts").innerHTML += `
+
+                const div = document.createElement("div")
+                div.innerHTML = `
                     <div class="card" style="cursor : pointer;">
                             <span class="card-header">
                                 <span onclick="userClicked(${post.author.id})">
@@ -60,20 +63,27 @@
                                         <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                                     </svg>
                                     <span>(${post.comments_count}) comments</span>
-                                    <span id="tags-${post.id}"></span>
+                                    <span class="tags-container"></span>
                                 </div>
                                 <div id="add-comment-div"></div>
                             </div>
                         </div>
                 `
 
-                let currentPost = `tags-${post.id}`
-                for(tag of post.tags){
-                     document.getElementById(currentPost).innerHTML += `
-                                        <button class="tagBtn">${tag.name}</button>
-                     `
+                const tagsContainer = div.querySelector(".tags-container")
+                const tagsFragment = document.createDocumentFragment()
+                for (let tag of post.tags) {
+                    const btn = document.createElement("button")
+                    btn.className = "tagBtn"
+                    btn.innerHTML = tag.name
+                    tagsFragment.appendChild(btn)
                 }
+                tagsContainer.appendChild(tagsFragment)
+
+
+                postsFragment.appendChild(div)
             }
+            document.getElementById("posts").appendChild(postsFragment)
         })
     }
 
